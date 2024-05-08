@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -41,12 +42,14 @@ import org.apache.activemq.artemis.core.config.impl.FileConfiguration;
 import org.apache.activemq.artemis.core.config.impl.SecurityConfiguration;
 import org.apache.activemq.artemis.core.registry.JndiBindingRegistry;
 import org.apache.activemq.artemis.core.remoting.impl.netty.NettyConnectorFactory;
+import org.apache.activemq.artemis.core.security.CheckType;
 import org.apache.activemq.artemis.core.security.Role;
 import org.apache.activemq.artemis.core.server.ActiveMQServer;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
 import org.apache.activemq.artemis.jms.server.JMSServerManager;
 import org.apache.activemq.artemis.jms.server.impl.JMSServerManagerImpl;
 import org.apache.activemq.artemis.spi.core.security.ActiveMQJAASSecurityManager;
+import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
 import org.apache.activemq.artemis.spi.core.security.jaas.InVMLoginModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -361,4 +364,8 @@ public class LocalTestServer implements Server, Runnable {
       getActiveMQServer().getSecurityRepository().addMatch("#", defConfig);
    }
 
+   public Map<String, Object>[] listScheduledMessages(final String queueName) throws Exception {
+      QueueControl queue = (QueueControl) getActiveMQServer().getManagementService().getResource(ResourceNames.QUEUE + queueName);
+      return queue.listScheduledMessages();
+   }
 }

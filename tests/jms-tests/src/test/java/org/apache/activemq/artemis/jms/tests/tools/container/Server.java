@@ -20,6 +20,7 @@ import javax.naming.InitialContext;
 import java.rmi.Remote;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.activemq.artemis.api.jms.JMSFactoryType;
@@ -35,7 +36,7 @@ public interface Server extends Remote {
    int getServerID() throws Exception;
 
    /**
-    * @param attrOverrides - server attribute overrides that will take precedence over values
+    * @param - server attribute overrides that will take precedence over values
     *                      read from configuration files.
     */
    void start(HashMap<String, Object> configuration, boolean clearDatabase) throws Exception;
@@ -188,4 +189,6 @@ public interface Server extends Remote {
 
    // void setDefaultRedeliveryDelay(long delay) throws Exception;
    JMSServerManager getJMSServerManager() throws Exception;
+
+   Map<String, Object>[] listScheduledMessages(final String queueName) throws Exception;
 }
